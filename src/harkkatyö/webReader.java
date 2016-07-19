@@ -28,6 +28,7 @@ import org.xml.sax.SAXException;
 public class webReader {
     private Document doc;
     private HashMap<String, String> map;
+    Sqlite sql = Sqlite.getInstance();
 
     public HashMap<String, String> getMap() {
         return map;
@@ -51,6 +52,7 @@ public class webReader {
     
     private void parseCurrentData() {
         
+        String statement;
         NodeList address = doc.getElementsByTagName("address");
         NodeList codes = doc.getElementsByTagName("code");
         NodeList cities = doc.getElementsByTagName("city");
@@ -61,7 +63,7 @@ public class webReader {
         
         
         System.out.println(address.getLength());
-        for(int i = 0; i < address.getLength(); i++) {
+        for(int i = 1; i < address.getLength(); i++) {
             Node node_address = address.item(i);
             Node node_codes = codes.item(i);
             Node node_cities = cities.item(i);
@@ -82,13 +84,18 @@ public class webReader {
             
             
             String temp = String.valueOf(i);
-            map.put(temp , e_ad.getTextContent());
-            map.put(e_ad.getTextContent(), e_co.getTextContent());
-            map.put(e_co.getTextContent(), e_ci.getTextContent());
-            map.put(e_ci.getTextContent(), e_av.getTextContent());
-            map.put(e_av.getTextContent(), e_po.getTextContent());
-            map.put(e_po.getTextContent(), e_la.getTextContent());
-            map.put(e_la.getTextContent(), e_ln.getTextContent());
+            System.out.println(e_ad.getTextContent());
+            System.out.println(e_co.getTextContent());
+            System.out.println(e_ci.getTextContent());
+            System.out.println(e_av.getTextContent());
+            System.out.println(e_po.getTextContent());
+            System.out.println(e_la.getTextContent());
+            System.out.println(e_ln.getTextContent());
+            
+            statement = "INSERT INTO Postiautomaatti(automaattiID, katu) "
+                    + "VALUES(" + i + ", '" + e_ad.getTextContent() + "');";
+            System.out.println(statement);
+            sql.addData(statement);
         
         }
         
