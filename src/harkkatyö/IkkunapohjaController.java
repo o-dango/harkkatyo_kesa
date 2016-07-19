@@ -12,10 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -94,7 +98,19 @@ public class IkkunapohjaController implements Initializable {
 
     @FXML
     private void addNewParcelAction(ActionEvent event) {
-        System.out.println("Lisää uuden postipaketin");
+        try {
+            Stage stage2 = new Stage();
+            System.out.println("Lisää uuden postipaketin");
+            stage2.setTitle("Paketti:D");
+            Parent root2 = FXMLLoader.load(getClass().getResource("pakettipohja.fxml"));
+            
+            Scene scene = new Scene(root2);
+            
+            stage2.setScene(scene);
+            stage2.show();
+        } catch (IOException ex) {
+            Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

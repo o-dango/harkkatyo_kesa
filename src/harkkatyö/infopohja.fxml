@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="313.0" prefWidth="333.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harkkatyö.InfopohjaController">
+   <children>
+      <TabPane prefHeight="313.0" prefWidth="332.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="firstClassInfo" text="1. luokka">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextArea editable="false" layoutX="14.0" layoutY="14.0" prefHeight="280.0" prefWidth="332.0" text="1. luokan paketti on kaikista nopein pakettiluokka, &#10;jonka vuoksi sitä ei voi lähettää pidemmälle kuin &#10;150km päähän. 1. luokan paketti on myös nopea, &#10;koska sen turvallisuudesta ei välitetä niin paljon, &#10;jolloin kaikki särkyvät esineet tulevat menemään &#10;rikki matkan aikana. " AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="secondClassInfo" text="2. luokka">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="252.0" prefWidth="337.0">
+                     <children>
+                        <TextArea editable="false" prefHeight="280.0" prefWidth="332.0" text="2. luokan paketit ovat turvakuljetuksia, jolloin ne &#10;kestävät parhaiten kaiken särkyvän tavaran &#10;kuljettamisen. Näitä paketteja on mahdollista &#10;kuljettaa jopa Lapista Helsinkiin, sillä matkan aikana &#10;käytetään useampaa kuin yhtä TIMOTEI­miestä, &#10;jolloin turvallinen kuljetus on taattu. &#10;Paketissa on kuitenkin huomattava, että jos se on &#10;liian suuri, ei särkyvä esine voi olla heilumatta." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="thirdClassInfo" text="3.luokka">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="276.0" prefWidth="332.0">
+                     <children>
+                        <TextArea editable="false" prefHeight="280.0" prefWidth="332.0" text="3. luokan paketti on TIMOTEI­miehen stressinpur-&#10;kupaketti. Tämä tarkoittaa sitä, että TIMOTEI­miehellä &#10;ollessa huono päivä pakettia paiskotaan seinien &#10;kautta automaatista toiseen, joten paketin sisällön &#10;on oltava myös erityisen kestävää materiaalia. &#10;Myös esineen suuri koko ja paino ovat eduksi, &#10;jolloin TIMOTEI­mies ei jaksa heittää pakettia &#10;seinälle kovin montaa kertaa. Koska paketit pääty-&#10;vät kohteeseensa aina seinien kautta, on tämä &#10;hitain mahdollinen kuljetusmuoto paketille. " AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

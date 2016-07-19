@@ -38,6 +38,18 @@ public class Sqlite {
         
         return sql;
     }
+    
+    public void addData() {
+        
+        System.out.println("Adding data~");
+        
+    }
+    
+    public void deleteData() {
+        
+        System.out.println("Deleting data~");
+        
+    }
   
     public void closeDatabase() throws SQLException {
         

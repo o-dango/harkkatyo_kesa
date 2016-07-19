@@ -11,20 +11,20 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="381.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harkkatyö.PakettipohjaController">
    <children>
-      <Button fx:id="cancelParcelAction" layoutX="379.0" layoutY="326.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="87.0" text="Peruuta" />
-      <Button fx:id="makeParcelAction" layoutX="379.0" layoutY="298.0" mnemonicParsing="false" text="Luo paketti" />
+      <Button fx:id="cancelParcel" layoutX="379.0" layoutY="326.0" mnemonicParsing="false" onAction="#cancelParcelAction" prefHeight="28.0" prefWidth="87.0" text="Peruuta" />
+      <Button fx:id="makeParcel" layoutX="379.0" layoutY="298.0" mnemonicParsing="false" onAction="#makeParcelAction" text="Luo paketti" />
       <TextField fx:id="setItemName" layoutX="14.0" layoutY="145.0" promptText="Nimi" />
       <TextField fx:id="setItemWeight" layoutX="14.0" layoutY="201.0" promptText="Paino    kg" />
       <TextField fx:id="setItemSize" layoutX="14.0" layoutY="173.0" promptText="Koko     cm*cm*cm" />
-      <ComboBox fx:id="selectGoalMachine" layoutX="196.0" layoutY="326.0" prefHeight="28.0" prefWidth="162.0" promptText="Automaatti" />
-      <ComboBox fx:id="selectStart" layoutX="11.0" layoutY="298.0" prefHeight="28.0" prefWidth="162.0" promptText="Lähtökaupunki" />
-      <ComboBox fx:id="selectStartMachine" layoutX="11.0" layoutY="326.0" prefHeight="28.0" prefWidth="162.0" promptText="Automaatti" />
-      <ComboBox fx:id="selectGoal" layoutX="196.0" layoutY="298.0" prefHeight="28.0" prefWidth="162.0" promptText="Kohdekaupunki" />
-      <ComboBox fx:id="selectItem" layoutX="14.0" layoutY="64.0" prefHeight="28.0" prefWidth="162.0" promptText="Esineet" />
-      <CheckBox layoutX="16.0" layoutY="247.0" mnemonicParsing="false" text="Särkyvää" />
-      <RadioButton fx:id="selectClassThree" layoutX="277.0" layoutY="133.0" mnemonicParsing="false" text="3. luokka" />
-      <RadioButton fx:id="selectClassTwo" layoutX="277.0" layoutY="101.0" mnemonicParsing="false" text="2. luokka" />
-      <RadioButton fx:id="selectCalssOne" layoutX="277.0" layoutY="69.0" mnemonicParsing="false" text="1. luokka" />
+      <ComboBox fx:id="selectGoalMachine" layoutX="196.0" layoutY="326.0" onAction="#selectGoalMachineAction" prefHeight="28.0" prefWidth="162.0" promptText="Automaatti" />
+      <ComboBox fx:id="selectStart" layoutX="11.0" layoutY="298.0" onAction="#selectStartAction" prefHeight="28.0" prefWidth="162.0" promptText="Lähtökaupunki" />
+      <ComboBox fx:id="selectStartMachine" layoutX="11.0" layoutY="326.0" onAction="#selectStartMachineAction" prefHeight="28.0" prefWidth="162.0" promptText="Automaatti" />
+      <ComboBox fx:id="selectGoal" layoutX="196.0" layoutY="298.0" onAction="#selectGoalAction" prefHeight="28.0" prefWidth="162.0" promptText="Kohdekaupunki" />
+      <ComboBox fx:id="selectItem" layoutX="14.0" layoutY="64.0" onAction="#selectItemAction" prefHeight="28.0" prefWidth="162.0" promptText="Esineet" />
+      <CheckBox fx:id="breakable" layoutX="16.0" layoutY="247.0" mnemonicParsing="false" onAction="#breakableAction" text="Särkyvää" />
+      <RadioButton fx:id="selectClassThree" layoutX="277.0" layoutY="133.0" mnemonicParsing="false" onAction="#selectClassThreeAction" text="3. luokka" />
+      <RadioButton fx:id="selectClassTwo" layoutX="277.0" layoutY="101.0" mnemonicParsing="false" onAction="#selectCalssTwoAction" text="2. luokka" />
+      <RadioButton fx:id="selectCalssOne" layoutX="277.0" layoutY="69.0" mnemonicParsing="false" onAction="#selectCalssOneAction" text="1. luokka" />
       <Label layoutX="14.0" layoutY="36.0" prefHeight="28.0" prefWidth="162.0" text="Valitse esine:">
          <font>
             <Font name="System Bold" size="13.0" />
@@ -48,7 +48,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="classInfoAction" layoutX="277.0" layoutY="173.0" mnemonicParsing="false" text="Infoa luokista" />
+      <Button fx:id="classInfoAction" layoutX="277.0" layoutY="173.0" mnemonicParsing="false" onAction="#classInfoAction" text="Infoa luokista" />
       <Label layoutX="263.0" layoutY="41.0" text="Valitse pakettiluokka:">
          <font>
             <Font name="System Bold" size="13.0" />
