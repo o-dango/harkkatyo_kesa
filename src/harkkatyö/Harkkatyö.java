@@ -5,6 +5,9 @@
  */
 package harkkatyö;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,7 +35,15 @@ public class Harkkatyö extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Sqlite sql = Sqlite.getInstance();
         launch(args);
+        try {
+            sql.closeDatabase();
+            System.out.println("Closed database successfully");
+        } catch (SQLException ex) {
+            Logger.getLogger(Harkkatyö.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }
