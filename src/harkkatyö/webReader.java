@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 public class webReader {
     private Document doc;
     private HashMap<String, String> map;
-    Sqlite sql = Sqlite.getInstance();
+    
 
     public HashMap<String, String> getMap() {
         return map;
@@ -63,7 +63,9 @@ public class webReader {
         
         
         System.out.println(address.getLength());
-        for(int i = 1; i < address.getLength(); i++) {
+        for(int i = 0; i < address.getLength(); i++) {
+            
+            Sqlite sql = Sqlite.getInstance();
             Node node_address = address.item(i);
             Node node_codes = codes.item(i);
             Node node_cities = cities.item(i);
@@ -83,7 +85,7 @@ public class webReader {
             
             
             
-            String temp = String.valueOf(i);
+            int temp = i + 1;
             System.out.println(e_ad.getTextContent());
             System.out.println(e_co.getTextContent());
             System.out.println(e_ci.getTextContent());
@@ -92,10 +94,26 @@ public class webReader {
             System.out.println(e_la.getTextContent());
             System.out.println(e_ln.getTextContent());
             
-            statement = "INSERT INTO Postiautomaatti(automaattiID, katu) "
-                    + "VALUES(" + i + ", '" + e_ad.getTextContent() + "');";
+            statement = "INSERT INTO Postiautomaatti(automaattiID, kaupunki) "
+                    + "VALUES(" + temp + ", '" + e_ci.getTextContent() + "');";
             System.out.println(statement);
             sql.addData(statement);
+            
+            Sqlite sql2 = Sqlite.getInstance();
+            
+            statement = "INSERT INTO Osoite(postinro, automaattiID, katu) "
+                    + "VALUES(" + e_co.getTextContent() + ", " + temp + ", '"
+                    + e_ad.getTextContent() + "');";
+            System.out.println(statement);
+            sql2.addData(statement);
+            
+            Sqlite sql3 = Sqlite.getInstance();
+            
+            statement = "INSERT INTO Koordinaatit(leveys, pituus, automaattiID) "
+                    + "VALUES(" + e_la.getTextContent() + ", " + e_ln.getTextContent() + ", "
+                    + temp + ");";
+            System.out.println(statement);
+            sql3.addData(statement);
         
         }
         

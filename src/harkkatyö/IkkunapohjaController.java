@@ -45,26 +45,22 @@ public class IkkunapohjaController implements Initializable {
     
     private readWeb rw;
     private webReader names;
+    Sqlite sql = Sqlite.getInstance();
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            rw = new readWeb("http://smartpost.ee/fi_apt.xml");
-            String content = rw.getContent();
-            names = new webReader(content);
-            webViewer.getEngine().load(getClass().getResource("index.html").toExternalForm());
-            
-        } catch (IOException ex) {
-            Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
-        int i = 0;
-        while(i < names.getMap().size()) {
-            System.out.println((String) names.getMap().keySet().toArray()[i]);
-            i++;
-        }
+//        try {
+//            rw = new readWeb("http://smartpost.ee/fi_apt.xml");
+//            String content = rw.getContent();
+//            names = new webReader(content);
+//            webViewer.getEngine().load(getClass().getResource("index.html").toExternalForm());
+//            
+//        } catch (IOException ex) {
+//            Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }    
 

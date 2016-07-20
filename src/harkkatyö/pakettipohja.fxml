@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -22,9 +23,12 @@
       <ComboBox fx:id="selectGoal" layoutX="196.0" layoutY="298.0" onAction="#selectGoalAction" prefHeight="28.0" prefWidth="162.0" promptText="Kohdekaupunki" />
       <ComboBox fx:id="selectItem" layoutX="14.0" layoutY="64.0" onAction="#selectItemAction" prefHeight="28.0" prefWidth="162.0" promptText="Esineet" />
       <CheckBox fx:id="breakable" layoutX="16.0" layoutY="247.0" mnemonicParsing="false" onAction="#breakableAction" text="Särkyvää" />
-      <RadioButton fx:id="selectClassThree" layoutX="277.0" layoutY="133.0" mnemonicParsing="false" onAction="#selectClassThreeAction" text="3. luokka" />
-      <RadioButton fx:id="selectClassTwo" layoutX="277.0" layoutY="101.0" mnemonicParsing="false" onAction="#selectCalssTwoAction" text="2. luokka" />
-      <RadioButton fx:id="selectCalssOne" layoutX="277.0" layoutY="69.0" mnemonicParsing="false" onAction="#selectCalssOneAction" text="1. luokka" />
+      <RadioButton fx:id="selectClassThree" layoutX="277.0" layoutY="133.0" mnemonicParsing="false" onAction="#selectClassThreeAction" text="3. luokka">
+         <toggleGroup>
+            <ToggleGroup fx:id="classSelection" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="selectClassTwo" layoutX="277.0" layoutY="101.0" mnemonicParsing="false" onAction="#selectClassTwoAction" text="2. luokka" toggleGroup="$classSelection" />
+      <RadioButton fx:id="selectClassOne" layoutX="277.0" layoutY="69.0" mnemonicParsing="false" onAction="#selectClassOneAction" text="1. luokka" toggleGroup="$classSelection" />
       <Label layoutX="14.0" layoutY="36.0" prefHeight="28.0" prefWidth="162.0" text="Valitse esine:">
          <font>
             <Font name="System Bold" size="13.0" />

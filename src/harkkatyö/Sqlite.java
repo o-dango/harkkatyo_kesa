@@ -8,6 +8,9 @@ package harkkatyö;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,6 +26,7 @@ public class Sqlite {
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:tietokanta_2.sqlite3");
+            c.setAutoCommit(false);
         } catch ( ClassNotFoundException | SQLException e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
@@ -39,15 +43,38 @@ public class Sqlite {
         return sql;
     }
     
-    public void addData() {
+    public void addData(String statement) {
         
-        System.out.println("Adding data~");
+        Statement stmt = null;
+        
+        try {
+            
+            c = DriverManager.getConnection("jdbc:sqlite:tietokanta_2.sqlite3");
+            c.setAutoCommit(false);
+            
+            stmt = c.createStatement();
+            System.out.println(statement);
+            stmt.executeUpdate(statement);
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Sqlite.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     
-    public void deleteData() {
+    public void deleteData(String statement) {
         
         System.out.println("Deleting data~");
+        
+    }
+    
+    public void getData(String statement) {
+        
+        System.out.println("Getting data~");
         
     }
   

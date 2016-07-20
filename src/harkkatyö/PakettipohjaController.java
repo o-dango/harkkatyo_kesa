@@ -51,8 +51,6 @@ public class PakettipohjaController implements Initializable {
     @FXML
     private RadioButton selectClassTwo;
     @FXML
-    private RadioButton selectCalssOne;
-    @FXML
     private Button classInfoAction;
     @FXML
     private Button cancelParcel;
@@ -60,6 +58,15 @@ public class PakettipohjaController implements Initializable {
     private Button makeParcel;
     @FXML
     private CheckBox breakable;
+    @FXML
+    private RadioButton selectClassOne;
+    
+    private String parcelClass;
+    private boolean isBreakable = false;
+    private String name;
+    private double width;
+    private double lenght;
+    private double height;
 
     /**
      * Initializes the controller class.
@@ -99,19 +106,47 @@ public class PakettipohjaController implements Initializable {
 
     @FXML
     private void breakableAction(ActionEvent event) {
+        
+        if (breakable.isSelected() == false) {
+            
+            isBreakable = false;
+            System.out.println("Esine on rikkoutuva: " + isBreakable);
+            
+        }
+        
+        else {
+            
+            isBreakable = true;
+            System.out.println("Esine on rikkoutuva: " + isBreakable);
+            
+        }
+        
     }
 
     @FXML
     private void selectClassThreeAction(ActionEvent event) {
+        
+        parcelClass = "3. luokka";
+        System.out.println("Tämänhetkinen pakettiluokka: " + parcelClass);
+        
+    }
+    
+    @FXML
+    private void selectClassTwoAction(ActionEvent event) {
+        
+        parcelClass = "2. luokka";
+        System.out.println("Tämänhetkinen pakettiluokka: " + parcelClass);
+        
     }
 
     @FXML
-    private void selectCalssTwoAction(ActionEvent event) {
+    private void selectClassOneAction(ActionEvent event) {
+        
+        parcelClass = "1. luokka";
+        System.out.println("Tämänhetkinen pakettiluokka: " + parcelClass);
+        
     }
 
-    @FXML
-    private void selectCalssOneAction(ActionEvent event) {
-    }
 
     @FXML
     private void classInfoAction(ActionEvent event) {
