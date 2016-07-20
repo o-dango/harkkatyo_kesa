@@ -94,8 +94,8 @@ public class webReader {
             System.out.println(e_la.getTextContent());
             System.out.println(e_ln.getTextContent());
             
-            statement = "INSERT INTO Postiautomaatti(automaattiID, kaupunki) "
-                    + "VALUES(" + temp + ", '" + e_ci.getTextContent() + "');";
+            statement = "INSERT INTO Postiautomaatti(automaattiID, kaupunki, nimi) "
+                    + "VALUES(" + temp + ", '" + e_ci.getTextContent() + "', '" + e_po.getTextContent() + "');";
             System.out.println(statement);
             sql.addData(statement);
             
@@ -114,6 +114,13 @@ public class webReader {
                     + temp + ");";
             System.out.println(statement);
             sql3.addData(statement);
+            
+            Sqlite sql4 = Sqlite.getInstance();
+            
+            statement = "INSERT INTO Aukioloaika(automaattiID, saatavilla) "
+                    + "VALUES(" + temp + ", '" + e_av.getTextContent() + "');";
+            System.out.println(statement);
+            sql4.addData(statement);
         
         }
         

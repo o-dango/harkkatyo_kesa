@@ -7,6 +7,9 @@ package harkkatyö;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,11 +34,11 @@ public class IkkunapohjaController implements Initializable {
     @FXML
     private WebView webViewer;
     @FXML
-    private ComboBox<?> chooseParcel;
+    private ComboBox<String> chooseParcel;
     @FXML
     private Button addToMap;
     @FXML
-    private ComboBox<?> chooseMachine;
+    private ComboBox<String> chooseMachine;
     @FXML
     private Button clearRoutes;
     @FXML
@@ -52,16 +55,45 @@ public class IkkunapohjaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-//        try {
-//            rw = new readWeb("http://smartpost.ee/fi_apt.xml");
-//            String content = rw.getContent();
-//            names = new webReader(content);
-//            webViewer.getEngine().load(getClass().getResource("index.html").toExternalForm());
-//            
-//        } catch (IOException ex) {
-//            Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
+        try {
+            rw = new readWeb("http://smartpost.ee/fi_apt.xml");
+            String content = rw.getContent();
+//            names = new webReader(content); tietokantaan kirjoittamista varten
+            webViewer.getEngine().load(getClass().getResource("index.html").toExternalForm());
+            
+        } catch (IOException ex) {
+            Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String statement = "SELECT * FROM Postiautomaatti;";
+        ArrayList results = sql.getCityData(statement);
+        String temp;
+        
+        System.out.println(results);
+        int i = 0;
+        
+        while(results.size() > i) {
+            
+            temp = results.get(i).toString().toUpperCase();
+            System.out.println(temp);
+            if(i == 0) {
+                chooseMachine.getItems().add(temp);
+                
+            }
+            else if(chooseMachine.getItems().get(chooseMachine.getItems().size()-1).equals(temp)) {
+                //continue
+                
+            }
+            else {
+            
+                chooseMachine.getItems().add(temp);
+                
+            }
+            i++;
+            System.out.println(i);
+            
+        }
+        
     }    
 
     @FXML

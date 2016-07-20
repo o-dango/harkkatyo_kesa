@@ -7,8 +7,10 @@ package harkkatyö;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -72,9 +74,40 @@ public class Sqlite {
         
     }
     
-    public void getData(String statement) {
+    public ArrayList getCityData(String statement) {
         
         System.out.println("Getting data~");
+        Statement stmt = null;
+        ResultSet rs = null;
+        ArrayList table = new ArrayList<>();
+        String temp;
+        
+        try {
+            
+            c = DriverManager.getConnection("jdbc:sqlite:tietokanta_2.sqlite3");
+            c.setAutoCommit(false);
+            
+            stmt = c.createStatement();
+            System.out.println(statement);
+            rs = stmt.executeQuery(statement);
+            int i = 1;
+            while(rs.next()) {
+                
+                table.add(rs.getString("kaupunki"));
+                i++;
+            
+            }
+            
+            rs.close();
+            stmt.close();
+            c.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Sqlite.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        
+        return table;
         
     }
   
