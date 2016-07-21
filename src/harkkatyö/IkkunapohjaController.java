@@ -10,6 +10,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,7 +59,7 @@ public class IkkunapohjaController implements Initializable {
         try {
             rw = new readWeb("http://smartpost.ee/fi_apt.xml");
             String content = rw.getContent();
-//            names = new webReader(content); tietokantaan kirjoittamista varten
+            //names = new webReader(content); //tietokantaan kirjoittamista varten
             webViewer.getEngine().load(getClass().getResource("index.html").toExternalForm());
             
         } catch (IOException ex) {
@@ -75,7 +76,6 @@ public class IkkunapohjaController implements Initializable {
         while(results.size() > i) {
             
             temp = results.get(i).toString().toUpperCase();
-            System.out.println(temp);
             if(i == 0) {
                 chooseMachine.getItems().add(temp);
                 
@@ -90,7 +90,6 @@ public class IkkunapohjaController implements Initializable {
                 
             }
             i++;
-            System.out.println(i);
             
         }
         
@@ -104,14 +103,38 @@ public class IkkunapohjaController implements Initializable {
 
     @FXML
     private void addToMapAction(ActionEvent event) {
-        String address = "Hiihtomäentie 6 C 30, 50160 Mikkeli";
-        String info = "Täällä on koti :D";
-        webViewer.getEngine().executeScript("document.goToLocation('" + address + "','" + info + "','blue')");
+        String address;
+        String info;
+        String[] temp;
+        ArrayList<String[]> results = new ArrayList();
+        int i = 0;
+        //webViewer.getEngine().executeScript("document.goToLocation('" + address + "','" + info + "','blue')");
+        
+        String statement = "SELECT * FROM Automaatit "
+                + "WHERE Kaupunki = '" + chooseMachine.getValue() + "';";
+        System.out.println(statement);
+        
+        results = sql.getAddressData(statement);
+        System.out.println(results.size());
+        
+        while(results.size() > i) {
+            
+            temp = results.get(i);
+            System.out.println(Arrays.toString(temp));
+            address = temp[0] + ", " + temp[1] + " " + temp[2]; //osote, postinro, kaupunki
+            info = address + " " + temp[3] + " " + temp[4]; //koko osote, nimi, aukioloaika
+            
+            webViewer.getEngine().executeScript("document.goToLocation('" + address + "','" + info + "','blue')");
+            i++;
+            
+        }
+        
     }
 
     @FXML
     private void chooseMachineAction(ActionEvent event) {
-        System.out.println("Valitsee postimaatin");
+        System.out.println("Valitsee postimaatit");
+        
     }
 
     @FXML
