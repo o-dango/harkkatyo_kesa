@@ -70,7 +70,7 @@ public class IkkunapohjaController implements Initializable {
         ArrayList results = sql.getCityData(statement);
         String temp;
         
-        System.out.println(results);
+        //System.out.println(results);
         int i = 0;
         
         while(results.size() > i) {
@@ -162,6 +162,7 @@ public class IkkunapohjaController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
     
 }

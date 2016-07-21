@@ -191,6 +191,51 @@ public class Sqlite {
         return table;
         
     }
+    
+    public ArrayList getItemData(String statement) {
+        
+        System.out.println("Getting data~");
+        Statement stmt = null;
+        ResultSet rs = null;
+        ArrayList table = new ArrayList<>();
+        //String[] temp = new String[5];
+        
+        try {
+            
+            c = DriverManager.getConnection("jdbc:sqlite:tietokanta_2.sqlite3");
+            c.setAutoCommit(false);
+            
+            stmt = c.createStatement();
+            System.out.println(statement);
+            rs = stmt.executeQuery(statement);
+            //int i = 0;
+            while(rs.next()) {
+                
+                String[] temp = new String[6];
+                
+                temp[0] = rs.getString("Nimi");
+                temp[1] = rs.getString("Särkyvä");
+                temp[2] = rs.getString("Syvyys");
+                temp[3] = rs.getString("Leveys");
+                temp[4] = rs.getString("Korkeus");
+                temp[5] = rs.getString("Paino");
+                table.add(temp);
+                //i++;
+            
+            }
+            
+            rs.close();
+            stmt.close();
+            c.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Sqlite.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        
+        return table;
+        
+    }
   
     public void closeDatabase() throws SQLException {
         

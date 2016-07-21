@@ -7,9 +7,11 @@ package harkkatyö;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javafx.application.Platform.exit;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,15 +39,15 @@ public class PakettipohjaController implements Initializable {
     @FXML
     private TextField setItemSize;
     @FXML
-    private ComboBox<?> selectGoalMachine;
+    private ComboBox<String> selectGoalMachine;
     @FXML
-    private ComboBox<?> selectStart;
+    private ComboBox<String> selectStart;
     @FXML
-    private ComboBox<?> selectStartMachine;
+    private ComboBox<String> selectStartMachine;
     @FXML
-    private ComboBox<?> selectGoal;
+    private ComboBox<String> selectGoal;
     @FXML
-    private ComboBox<?> selectItem;
+    private ComboBox<String> selectItem;
     @FXML
     private RadioButton selectClassThree;
     @FXML
@@ -61,47 +63,137 @@ public class PakettipohjaController implements Initializable {
     @FXML
     private RadioButton selectClassOne;
     
+    private Sqlite sql = Sqlite.getInstance();
+    private ArrayList<String[]> results = new ArrayList();
     private String parcelClass;
     private boolean isBreakable = false;
-    private String name;
-    private double width;
-    private double lenght;
-    private double height;
+    private String startmachine;
+    private String endmachine;
+    private String startcity;
+    private String endcity;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        int i = 0;
+        String[] temp = new String[6];
+        String statement = "SELECT * FROM Tuotetiedot;";
+        System.out.println(statement);
+        results = sql.getItemData(statement);
+        
+        while(results.size() > i) {
+            
+            temp = results.get(i);
+            selectItem.getItems().add(temp[0]);
+            i++;
+            
+        }
+        
+        statement = "SELECT kaupunki FROM Automaatit;";
+        ArrayList<String> citys = sql.getCityData(statement);
+        i = 0;
+        while(citys.size() > i) {
+            
+            if(i == 0) {
+                
+                selectStart.getItems().add(citys.get(i));
+                selectGoal.getItems().add(citys.get(i));
+            
+            }
+            
+            else if(selectStart.getItems().get(selectStart.getItems().size()-1).equals(citys.get(i))) {
+                //continue
+                
+            }
+            
+            else {
+                
+                selectStart.getItems().add(citys.get(i));
+                selectGoal.getItems().add(citys.get(i));
+                
+            }
+            
+            i++;
+            
+        }
+        
     }    
 
     @FXML
     private void cancelParcelAction(ActionEvent event) {
+        
+        Stage scene = (Stage) cancelParcel.getScene().getWindow();
+        scene.close();
+        
     }
 
     @FXML
     private void makeParcelAction(ActionEvent event) {
+        
+        
+        Stage scene = (Stage) makeParcel.getScene().getWindow();
+        scene.close();
+        
     }
 
     @FXML
     private void selectGoalMachineAction(ActionEvent event) {
+        
+        endmachine = selectGoalMachine.getValue();
+        
     }
 
     @FXML
     private void selectStartAction(ActionEvent event) {
+        
+        startcity = selectStart.getValue();
+        int i = 0;
+        String statement = "SELECT * FROM Automaatit "
+                + "WHERE kaupunki ='" + startcity + "';";
+        ArrayList<String[]> machines = sql.getAddressData(statement);
+        
+        while(machines.size() > i) {
+            
+            selectStartMachine.getItems().add(machines.get(i)[3]);
+            i++;
+            
+        }
+        
     }
 
     @FXML
     private void selectStartMachineAction(ActionEvent event) {
+        
+        startmachine = selectStartMachine.getValue();
+        
     }
 
     @FXML
     private void selectGoalAction(ActionEvent event) {
+        
+        endcity = selectGoal.getValue();
+        int i = 0;
+        String statement = "SELECT * FROM Automaatit "
+                + "WHERE kaupunki ='" + endcity + "';";
+        ArrayList<String[]> machines = sql.getAddressData(statement);
+        
+        while(machines.size() > i) {
+            
+            selectGoalMachine.getItems().add(machines.get(i)[3]);
+            i++;
+            
+        }
+        
     }
 
     @FXML
     private void selectItemAction(ActionEvent event) {
+        
+        
+        
     }
 
     @FXML
