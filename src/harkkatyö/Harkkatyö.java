@@ -38,12 +38,8 @@ public class Harkkatyö extends Application {
     public static void main(String[] args) {
         Sqlite sql = Sqlite.getInstance();
         launch(args);
-        try {
-            sql.closeDatabase();
-            System.out.println("Closed database successfully");
-        } catch (SQLException ex) {
-            Logger.getLogger(Harkkatyö.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        sql.closeDatabase();
+        System.out.println("Closed database successfully");
         
     }
     

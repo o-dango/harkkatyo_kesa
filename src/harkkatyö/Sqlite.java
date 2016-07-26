@@ -71,6 +71,24 @@ public class Sqlite {
     public void deleteData(String statement) {
         
         System.out.println("Deleting data~");
+                Statement stmt = null;
+        
+        try {
+            
+            c = DriverManager.getConnection("jdbc:sqlite:tietokanta_2.sqlite3");
+            c.setAutoCommit(false);
+            
+            stmt = c.createStatement();
+            System.out.println(statement);
+            stmt.executeUpdate(statement);
+            
+            stmt.close();
+            c.commit();
+            c.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Sqlite.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     
@@ -129,8 +147,8 @@ public class Sqlite {
                 
                 String[] temp = new String[2];
                 
-                temp[0] = rs.getString("pituus");
-                temp[1] = rs.getString("leveys");
+                temp[0] = rs.getString("Pituus");
+                temp[1] = rs.getString("Leveys");
                 table.add(temp);
             
             }
@@ -281,9 +299,13 @@ public class Sqlite {
         
     }
   
-    public void closeDatabase() throws SQLException {
+    public void closeDatabase() {
         
-        c.close();
+        try {
+            c.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Sqlite.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 }

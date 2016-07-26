@@ -7,7 +7,9 @@ package harkkatyö;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +25,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -66,11 +70,15 @@ public class PakettipohjaController implements Initializable {
     private Sqlite sql = Sqlite.getInstance();
     private ArrayList<String[]> results = new ArrayList();
     private int parcelClass;
-    private boolean isBreakable = false;
+    private String isBreakable = "False";
     private String startmachine;
     private String endmachine;
     private String startcity;
     private String endcity;
+    @FXML
+    private ToggleGroup classSelection;
+    @FXML
+    private Button createItem;
 
     /**
      * Initializes the controller class.
@@ -78,47 +86,7 @@ public class PakettipohjaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        int i = 0;
-        String[] temp = new String[6];
-        String statement = "SELECT * FROM Tuotetiedot;";
-        System.out.println(statement);
-        results = sql.getItemData(statement);
-        
-        while(results.size() > i) {
-            
-            temp = results.get(i);
-            selectItem.getItems().add(i, temp[0]);
-            i++;
-            
-        }
-        
-        statement = "SELECT kaupunki FROM Automaatit;";
-        ArrayList<String> citys = sql.getCityData(statement);
-        i = 0;
-        while(citys.size() > i) {
-            
-            if(i == 0) {
-                
-                selectStart.getItems().add(citys.get(i));
-                selectGoal.getItems().add(citys.get(i));
-            
-            }
-            
-            else if(selectStart.getItems().get(selectStart.getItems().size()-1).equals(citys.get(i))) {
-                //continue
-                
-            }
-            
-            else {
-                
-                selectStart.getItems().add(citys.get(i));
-                selectGoal.getItems().add(citys.get(i));
-                
-            }
-            
-            i++;
-            
-        }
+        readItems();
         
     }    
 
@@ -206,14 +174,14 @@ public class PakettipohjaController implements Initializable {
         
         if (breakable.isSelected() == false) {
             
-            isBreakable = false;
+            isBreakable = "False";
             System.out.println("Esine on rikkoutuva: " + isBreakable);
             
         }
         
         else {
             
-            isBreakable = true;
+            isBreakable = "True";
             System.out.println("Esine on rikkoutuva: " + isBreakable);
             
         }
@@ -259,7 +227,87 @@ public class PakettipohjaController implements Initializable {
             stage3.show();
         } catch (IOException ex) {
             Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+            sql.closeDatabase();
         }
+        
+    }
+
+    @FXML
+    private void createItemAction(ActionEvent event) {
+        
+        
+        String statement = "INSERT INTO Esine(tuoteID, Särkyvä, Nimi) "
+                + "VALUES(" + (selectItem.getItems().size() + 1) + ",'" 
+                + isBreakable + "','" + setItemName.getText() + "');";
+        
+        sql.addData(statement);
+        
+        String size = setItemSize.getText();
+        System.out.println(size);
+        String[] split = new String[3];
+        split = size.split("\\*");
+        System.out.println(Arrays.toString(split));
+        statement = "INSERT INTO Koko(Korkeus, Leveys, Syvyys, Paino, tuoteID) "
+                + "VALUES(" + Integer.parseInt(split[0]) + "," + Integer.parseInt(split[1]) 
+                + "," + Integer.parseInt(split[2]) + "," + Double.parseDouble(setItemWeight.getText())
+                + "," + (selectItem.getItems().size() + 1) + ");";
+        
+        sql.addData(statement);
+        
+    }
+    
+    public void readItems() {
+        
+        selectItem.getItems().clear();
+        int i = 0;
+        String[] temp = new String[6];
+        String statement = "SELECT * FROM Tuotetiedot;";
+        System.out.println(statement);
+        results = sql.getItemData(statement);
+        
+        while(results.size() > i) {
+            
+            temp = results.get(i);
+            selectItem.getItems().add(i, temp[0]);
+            i++;
+            
+        }
+        
+        statement = "SELECT kaupunki FROM Automaatit;";
+        ArrayList<String> citys = sql.getCityData(statement);
+        i = 0;
+        while(citys.size() > i) {
+            
+            if(i == 0) {
+                
+                selectStart.getItems().add(citys.get(i));
+                selectGoal.getItems().add(citys.get(i));
+            
+            }
+            
+            else if(selectStart.getItems().get(selectStart.getItems().size()-1).equals(citys.get(i))) {
+                //continue
+                
+            }
+            
+            else {
+                
+                selectStart.getItems().add(citys.get(i));
+                selectGoal.getItems().add(citys.get(i));
+                
+            }
+            
+            i++;
+            
+        }
+        
+    }
+
+    @FXML
+    private void getItemsAction(MouseEvent event) {
+        
+        readItems();
+        
     }
     
 }

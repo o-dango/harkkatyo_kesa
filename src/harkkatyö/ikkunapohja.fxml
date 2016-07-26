@@ -34,7 +34,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ComboBox fx:id="chooseParcel" onAction="#getParcelAction" prefHeight="28.0" prefWidth="166.0" promptText="Valitse paketti" GridPane.columnIndex="2" />
+            <ComboBox fx:id="chooseParcel" onAction="#getParcelAction" onMouseClicked="#refreshParcels" prefHeight="28.0" prefWidth="166.0" promptText="Valitse paketti" GridPane.columnIndex="2" />
             <Button fx:id="addToMap" mnemonicParsing="false" onAction="#addToMapAction" prefHeight="28.0" prefWidth="100.0" text="Lisää kartalle" GridPane.columnIndex="1" />
             <ComboBox fx:id="chooseMachine" onAction="#chooseMachineAction" prefHeight="28.0" prefWidth="166.0" promptText="Valitse automaatti" />
             <Button fx:id="clearRoutes" mnemonicParsing="false" onAction="#clearRoutesAction" prefHeight="28.0" prefWidth="114.0" text="Tyhjennä reitit" GridPane.rowIndex="1" />
