@@ -65,7 +65,7 @@ public class PakettipohjaController implements Initializable {
     
     private Sqlite sql = Sqlite.getInstance();
     private ArrayList<String[]> results = new ArrayList();
-    private String parcelClass;
+    private int parcelClass;
     private boolean isBreakable = false;
     private String startmachine;
     private String endmachine;
@@ -87,7 +87,7 @@ public class PakettipohjaController implements Initializable {
         while(results.size() > i) {
             
             temp = results.get(i);
-            selectItem.getItems().add(temp[0]);
+            selectItem.getItems().add(i, temp[0]);
             i++;
             
         }
@@ -133,7 +133,12 @@ public class PakettipohjaController implements Initializable {
     @FXML
     private void makeParcelAction(ActionEvent event) {
         
-        
+        int itemID = selectItem.getItems().indexOf(selectItem.getValue()) + 1;
+        String statement = "INSERT INTO Paketti(tuoteID, Luokka, Lähtö, Maali) "
+                + "VALUES (" + itemID + "," + parcelClass 
+                + ",'" + startmachine + "','" + endmachine + "');";
+        sql = Sqlite.getInstance();
+        sql.addData(statement);
         Stage scene = (Stage) makeParcel.getScene().getWindow();
         scene.close();
         
@@ -218,7 +223,7 @@ public class PakettipohjaController implements Initializable {
     @FXML
     private void selectClassThreeAction(ActionEvent event) {
         
-        parcelClass = "3. luokka";
+        parcelClass = 3;
         System.out.println("Tämänhetkinen pakettiluokka: " + parcelClass);
         
     }
@@ -226,7 +231,7 @@ public class PakettipohjaController implements Initializable {
     @FXML
     private void selectClassTwoAction(ActionEvent event) {
         
-        parcelClass = "2. luokka";
+        parcelClass = 2;
         System.out.println("Tämänhetkinen pakettiluokka: " + parcelClass);
         
     }
@@ -234,7 +239,7 @@ public class PakettipohjaController implements Initializable {
     @FXML
     private void selectClassOneAction(ActionEvent event) {
         
-        parcelClass = "1. luokka";
+        parcelClass = 1;
         System.out.println("Tämänhetkinen pakettiluokka: " + parcelClass);
         
     }

@@ -66,6 +66,8 @@ public class IkkunapohjaController implements Initializable {
             Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        //readParcels();
+        
         String statement = "SELECT * FROM Postiautomaatti;";
         ArrayList results = sql.getCityData(statement);
         String temp;
@@ -161,6 +163,27 @@ public class IkkunapohjaController implements Initializable {
             stage2.show();
         } catch (IOException ex) {
             Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //readParcels();
+        
+    }
+    
+    public void readParcels() {
+        
+        int i = 0;
+        String[] temp;
+        String print;
+        String statement = "Select * FROM PakettiInfo;";
+        //sql = Sqlite.getInstance();
+        ArrayList<String[]> results = sql.getParcelData(statement);
+        
+        while(results.size() > i) {
+            
+            temp = results.get(i);
+            print = temp[0] + ", " + temp[2] + " -> " + temp[3];
+            chooseParcel.getItems().add(print);
+            
         }
         
     }

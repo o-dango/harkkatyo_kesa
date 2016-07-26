@@ -11,7 +11,7 @@ package harkkatyö;
  */
 public class Parcel{
     
-    public Parcel(int id, String item, String size) {
+    public Parcel(int id, String item, String size, String parcelClass ) {
         
         
         
