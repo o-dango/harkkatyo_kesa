@@ -40,6 +40,7 @@ public class Harkkatyö extends Application {
         launch(args);
         sql.closeDatabase();
         System.out.println("Closed database successfully");
+        exit();
         
     }
     

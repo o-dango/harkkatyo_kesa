@@ -54,6 +54,7 @@ public class IkkunapohjaController implements Initializable {
     Sqlite sql = Sqlite.getInstance();
     @FXML
     private Button removeParcel;
+
     /**
      * Initializes the controller class.
      */
@@ -197,16 +198,43 @@ public class IkkunapohjaController implements Initializable {
         System.out.println(coordinates.toString());
         
         distance = (double)webViewer.getEngine().executeScript("document.createPath(" + coordinates 
-                + ",'blue'," + parcelClass + ")");
+                + ",'none'," + parcelClass + ")");
+        System.out.println(distance);
         
-        statement = "DELETE FROM Paketti "
-                + "WHERE pakettiID = " + parcelID + ";";
-        try {
-            sql.deleteData(statement);
-        } catch (SQLException ex) {
-            Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+        if (parcelClass == 1 && distance > 150) {
+            
+            try {
+                Stage stage3 = new Stage();
+                System.out.println("oopsie");
+                stage3.setTitle("Virhe:D");
+                Parent root2 = FXMLLoader.load(getClass().getResource("ponnahus.fxml"));
+
+                Scene scene = new Scene(root2);
+
+                stage3.setScene(scene);
+                stage3.show();
+            } catch (IOException ex) {
+                Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
-        chooseParcel.setPromptText("Valitse paketti");
+        
+        else {
+            
+            webViewer.getEngine().executeScript("document.createPath(" + coordinates 
+                + ",'blue'," + parcelClass + ")");
+            System.out.println(distance);
+        
+            statement = "DELETE FROM Paketti "
+                    + "WHERE pakettiID = " + parcelID + ";";
+            try {
+                sql.deleteData(statement);
+            } catch (SQLException ex) {
+                Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            chooseParcel.setPromptText("Valitse paketti");
+            
+        }
         
     }
 

@@ -146,7 +146,7 @@ public class Parcel{
             return 1;
         
         } catch (SQLException | NumberFormatException ex) {
-            Logger.getLogger(Sqlite.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Sqlite.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
             
         }

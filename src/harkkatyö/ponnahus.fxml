@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #ffa100;" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harkkatyö.PonnahusController">
+   <children>
+      <Button fx:id="okButton" layoutX="82.0" layoutY="66.0" mnemonicParsing="false" onAction="#okButtonAction" style="-fx-background-color: #ad6c00;" text="OK" textFill="WHITE" />
+      <Label layoutX="6.0" layoutY="5.0" prefHeight="18.0" prefWidth="200.0" text="1. luokan paketin toimitus" textFill="WHITE" />
+      <Label layoutX="6.0" layoutY="23.0" prefHeight="18.0" prefWidth="100.0" text="epäonnistui." textFill="WHITE" />
+      <Label layoutX="6.0" layoutY="41.0" prefHeight="18.0" prefWidth="200.0" text="Välimatka liian pitkä!" textFill="WHITE" />
+   </children>
+</AnchorPane>
