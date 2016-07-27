@@ -23,9 +23,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -66,6 +68,12 @@ public class PakettipohjaController implements Initializable {
     private CheckBox breakable;
     @FXML
     private RadioButton selectClassOne;
+    @FXML
+    private ToggleGroup classSelection;
+    @FXML
+    private Button createItem;
+    @FXML
+    private Label infoText;
     
     private Sqlite sql = Sqlite.getInstance();
     private ArrayList<String[]> results = new ArrayList();
@@ -76,9 +84,8 @@ public class PakettipohjaController implements Initializable {
     private String startcity;
     private String endcity;
     @FXML
-    private ToggleGroup classSelection;
-    @FXML
-    private Button createItem;
+    private Button removeItem;
+
 
     /**
      * Initializes the controller class.
@@ -101,14 +108,25 @@ public class PakettipohjaController implements Initializable {
     @FXML
     private void makeParcelAction(ActionEvent event) {
         
+        Parcel p = Parcel.getInstance();
         int itemID = selectItem.getItems().indexOf(selectItem.getValue()) + 1;
-        String statement = "INSERT INTO Paketti(tuoteID, Luokka, Lähtö, Maali) "
+        /*String statement = "INSERT INTO Paketti(tuoteID, Luokka, Lähtö, Maali) "
                 + "VALUES (" + itemID + "," + parcelClass 
                 + ",'" + startmachine + "','" + endmachine + "');";
         sql = Sqlite.getInstance();
-        sql.addData(statement);
-        Stage scene = (Stage) makeParcel.getScene().getWindow();
-        scene.close();
+        sql.addData(statement);*/
+        int check = p.createParcel(itemID, parcelClass, startmachine, endmachine);
+        if(check == 0) {
+            infoText.setText("Paketin luomisessa tapahtui virhe!\n"
+                    + "Tarkista onko esine sopiva valittuun toimitusluokkaan.");
+        }
+        else if(check == 2) {
+            infoText.setText("Virhe tietojärjestelmässä!");
+        }
+        else {
+            Stage scene = (Stage) makeParcel.getScene().getWindow();
+            scene.close();
+        }
         
     }
 
@@ -164,8 +182,6 @@ public class PakettipohjaController implements Initializable {
 
     @FXML
     private void selectItemAction(ActionEvent event) {
-        
-        
         
     }
 
@@ -235,24 +251,24 @@ public class PakettipohjaController implements Initializable {
     @FXML
     private void createItemAction(ActionEvent event) {
         
+        Item item = Item.getInstance();
+        int check;
+        int itemID = (selectItem.getItems().size() + 1);
         
-        String statement = "INSERT INTO Esine(tuoteID, Särkyvä, Nimi) "
-                + "VALUES(" + (selectItem.getItems().size() + 1) + ",'" 
-                + isBreakable + "','" + setItemName.getText() + "');";
+        check = item.createItem(itemID, isBreakable, setItemName.getText(), 
+                setItemSize.getText(), setItemWeight.getText());
         
-        sql.addData(statement);
+        if(check == 0) {
+            
+            infoText.setText("Esineen luomisessa tapahtui virhe!\n"
+                    + "Tarkasta syötetyt tiedot.");
+        }
         
-        String size = setItemSize.getText();
-        System.out.println(size);
-        String[] split = new String[3];
-        split = size.split("\\*");
-        System.out.println(Arrays.toString(split));
-        statement = "INSERT INTO Koko(Korkeus, Leveys, Syvyys, Paino, tuoteID) "
-                + "VALUES(" + Integer.parseInt(split[0]) + "," + Integer.parseInt(split[1]) 
-                + "," + Integer.parseInt(split[2]) + "," + Double.parseDouble(setItemWeight.getText())
-                + "," + (selectItem.getItems().size() + 1) + ");";
-        
-        sql.addData(statement);
+        else {
+            
+            infoText.setText("Luotiin esine: " + setItemName.getText());
+            
+        }
         
     }
     
@@ -260,7 +276,7 @@ public class PakettipohjaController implements Initializable {
         
         selectItem.getItems().clear();
         int i = 0;
-        String[] temp = new String[6];
+        String[] temp = new String[7];
         String statement = "SELECT * FROM Tuotetiedot;";
         System.out.println(statement);
         results = sql.getItemData(statement);
@@ -268,7 +284,7 @@ public class PakettipohjaController implements Initializable {
         while(results.size() > i) {
             
             temp = results.get(i);
-            selectItem.getItems().add(i, temp[0]);
+            selectItem.getItems().add(temp[0] + ": " + temp[1]);
             i++;
             
         }
@@ -307,6 +323,31 @@ public class PakettipohjaController implements Initializable {
     private void getItemsAction(MouseEvent event) {
         
         readItems();
+        
+    }
+
+    @FXML
+    private void removeItemAction(ActionEvent event) {
+        
+        Item item = Item.getInstance();
+        int id;
+        int check;
+        String temp = selectItem.getValue();
+        String[] split = temp.split(":");
+        id = Integer.parseInt(split[0].trim());
+        check = item.removeItem(id);
+        
+        if (check == 0) {
+            
+            infoText.setText("Virhe esineen poistamisessa! \n"
+                    + "Yritä uudelleen.");
+        }
+        
+        else {
+            
+            infoText.setText("Poistettiin esine: " + split[1].trim());
+            
+        }
         
     }
     

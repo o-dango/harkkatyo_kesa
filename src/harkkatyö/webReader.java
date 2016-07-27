@@ -7,6 +7,7 @@ package harkkatyö;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -106,8 +107,9 @@ public class webReader {
                     + "SET postinro = '" + e_co.getTextContent() + "' "
                     + "WHERE automaattiID = " + temp + ";";
             System.out.println(statement);
-            sql2.addData(statement);
-            
+            try {
+                sql2.addData(statement);
+                
 //            Sqlite sql3 = Sqlite.getInstance();
 //            
 //            statement = "INSERT INTO Koordinaatit(leveys, pituus, automaattiID) "
@@ -122,6 +124,9 @@ public class webReader {
 //                    + "VALUES(" + temp + ", '" + e_av.getTextContent() + "');";
 //            System.out.println(statement);
 //            sql4.addData(statement);
+            } catch (SQLException ex) {
+                Logger.getLogger(webReader.class.getName()).log(Level.SEVERE, null, ex);
+            }
         
         }
         

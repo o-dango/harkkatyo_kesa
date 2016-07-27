@@ -2,13 +2,17 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harkkatyö.IkkunapohjaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="600.0" style="-fx-background-color: #ffa100;" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="harkkatyö.IkkunapohjaController">
    <children>
       <GridPane layoutX="14.0" layoutY="-1.0" prefHeight="548.0" prefWidth="570.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="-1.0">
         <columnConstraints>
@@ -20,6 +24,21 @@
         </rowConstraints>
          <children>
             <WebView fx:id="webViewer" prefHeight="514.0" prefWidth="570.0" GridPane.rowIndex="1" />
+            <Label prefHeight="97.0" prefWidth="570.0" text="TIMOTEI-järjestelmä">
+               <font>
+                  <Font name="System Italic" size="29.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="WHITE" />
+                        <Stop color="#ffe5c3" offset="0.3317923186344238" />
+                        <Stop color="#ffd678" offset="0.6906370656370657" />
+                        <Stop color="#fab964" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
          </children>
       </GridPane>
       <GridPane layoutX="14.0" layoutY="552.0" prefHeight="86.0" prefWidth="570.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="552.0">
@@ -34,12 +53,13 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ComboBox fx:id="chooseParcel" onAction="#getParcelAction" onMouseClicked="#refreshParcels" prefHeight="28.0" prefWidth="166.0" promptText="Valitse paketti" GridPane.columnIndex="2" />
-            <Button fx:id="addToMap" mnemonicParsing="false" onAction="#addToMapAction" prefHeight="28.0" prefWidth="100.0" text="Lisää kartalle" GridPane.columnIndex="1" />
-            <ComboBox fx:id="chooseMachine" onAction="#chooseMachineAction" prefHeight="28.0" prefWidth="166.0" promptText="Valitse automaatti" />
-            <Button fx:id="clearRoutes" mnemonicParsing="false" onAction="#clearRoutesAction" prefHeight="28.0" prefWidth="114.0" text="Tyhjennä reitit" GridPane.rowIndex="1" />
-            <Button fx:id="sendParcel" mnemonicParsing="false" onAction="#sendParcelAction" prefHeight="28.0" prefWidth="69.0" text="Lähetä" GridPane.columnIndex="3" />
-            <Button fx:id="addNewParcel" mnemonicParsing="false" onAction="#addNewParcelAction" text="Uusi paketti" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ComboBox fx:id="chooseParcel" onAction="#getParcelAction" onMouseClicked="#refreshParcels" prefHeight="30.0" prefWidth="176.0" promptText="Valitse paketti" style="-fx-background-color: #ad6c00;" GridPane.columnIndex="2" />
+            <Button fx:id="addToMap" mnemonicParsing="false" onAction="#addToMapAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #ad6c00;" text="Lisää kartalle" textFill="WHITE" GridPane.columnIndex="1" />
+            <ComboBox fx:id="chooseMachine" onAction="#chooseMachineAction" prefHeight="30.0" prefWidth="161.0" promptText="Valitse automaatti" style="-fx-background-color: #ad6c00;" />
+            <Button fx:id="clearRoutes" mnemonicParsing="false" onAction="#clearRoutesAction" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #ad6c00;" text="Tyhjennä reitit" textFill="WHITE" GridPane.rowIndex="1" />
+            <Button fx:id="sendParcel" mnemonicParsing="false" onAction="#sendParcelAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #ad6c00;" text="Lähetä" textFill="WHITE" GridPane.columnIndex="3" />
+            <Button fx:id="addNewParcel" mnemonicParsing="false" onAction="#addNewParcelAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #ad6c00;" text="Uusi paketti" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button fx:id="removeParcel" mnemonicParsing="false" onAction="#removeParcelAction" style="-fx-background-color: #ad6c00;" text="Poista paketti" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

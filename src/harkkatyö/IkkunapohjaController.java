@@ -52,6 +52,8 @@ public class IkkunapohjaController implements Initializable {
     private readWeb rw;
     private webReader names;
     Sqlite sql = Sqlite.getInstance();
+    @FXML
+    private Button removeParcel;
     /**
      * Initializes the controller class.
      */
@@ -128,7 +130,7 @@ public class IkkunapohjaController implements Initializable {
             address = temp[0] + ", " + temp[1] + " " + temp[2]; //osote, postinro, kaupunki
             info = address + " " + temp[3] + " " + temp[4]; //koko osote, nimi, aukioloaika
             
-            webViewer.getEngine().executeScript("document.goToLocation('" + address + "','" + info + "','blue')");
+            webViewer.getEngine().executeScript("document.goToLocation('" + address + "','" + info + "','orange')");
             i++;
             
         }
@@ -152,6 +154,8 @@ public class IkkunapohjaController implements Initializable {
         
         String temp;
         int parcelClass;
+        int parcelID;
+        double distance;
         ArrayList<String> coordinates = new ArrayList();
         sql = Sqlite.getInstance();
         System.out.println("Lähettää postipaketin");
@@ -163,18 +167,19 @@ public class IkkunapohjaController implements Initializable {
         split = split[0].split(":");
         System.out.println(Arrays.toString(split) + " " + temp);
         
+        parcelID = Integer.parseInt(split[0].trim());
+        
         String statement = "SELECT * FROM PakettiInfo WHERE "
-                + "Nimi = '" + split[0].trim() + "' AND Lähtö = '" + split[1].trim()
-                + "' AND Maali = '" + temp.trim() + "';";
+                + "pakettiID = " + parcelID + ";";
         System.out.println(statement);
         ArrayList<String[]> results = sql.getParcelData(statement);
         
-        temp = results.get(0)[3];
-        parcelClass = Integer.parseInt(results.get(0)[1]);
+        temp = results.get(0)[4];
+        parcelClass = Integer.parseInt(results.get(0)[2]);
         System.out.println(parcelClass);
         
         statement = "SELECT * FROM Sijainti WHERE "
-                + "Nimi = '" + results.get(0)[2] + "';";
+                + "Nimi = '" + results.get(0)[3] + "';";
         //System.out.println(statement);
         
         results = sql.getCoordinateData(statement);
@@ -191,8 +196,17 @@ public class IkkunapohjaController implements Initializable {
         
         System.out.println(coordinates.toString());
         
-        webViewer.getEngine().executeScript("document.createPath(" + coordinates 
+        distance = (double)webViewer.getEngine().executeScript("document.createPath(" + coordinates 
                 + ",'blue'," + parcelClass + ")");
+        
+        statement = "DELETE FROM Paketti "
+                + "WHERE pakettiID = " + parcelID + ";";
+        try {
+            sql.deleteData(statement);
+        } catch (SQLException ex) {
+            Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        chooseParcel.setPromptText("Valitse paketti");
         
     }
 
@@ -227,7 +241,7 @@ public class IkkunapohjaController implements Initializable {
         while(results.size() > i) {
             
             temp = results.get(i);
-            print = temp[0] + ": " + temp[2] + " -> " + temp[3];
+            print = temp[0] + ": " + temp[1] + ": " + temp[3] + " -> " + temp[4];
             chooseParcel.getItems().add(print);
             i++;
             
@@ -240,6 +254,30 @@ public class IkkunapohjaController implements Initializable {
         
         System.out.println("Päivittää listan paketeista");
         readParcels();
+        
+    }
+
+    @FXML
+    private void removeParcelAction(ActionEvent event) {
+        
+        Parcel p = Parcel.getInstance();
+        
+        String temp = chooseParcel.getValue();
+        String[] split = temp.split("->");
+        System.out.println(Arrays.toString(split));
+        temp = split[1];
+        split = split[0].split(":");
+        System.out.println(Arrays.toString(split) + " " + temp);
+        
+        int parcelID = Integer.parseInt(split[0].trim());
+        
+        int check = p.removeParcel(parcelID);
+        
+        if (check == 0) {
+            
+            System.out.println("Virhe tietokannassa!");
+            
+        }
         
     }
     

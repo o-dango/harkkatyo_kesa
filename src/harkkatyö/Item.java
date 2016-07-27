@@ -61,4 +61,27 @@ public class Item {
         
     }
     
+    public int removeItem(int itemID) {
+        
+        try {
+            String statement = "DELETE FROM Esine "
+                    + "WHERE tuoteID = " + itemID + ";";
+
+            sql.deleteData(statement);
+
+            statement = "DELETE FROM Koko "
+                    + "WHERE tuoteID = " + itemID + ";";
+
+            sql.addData(statement);
+        
+            return 1;
+        
+        } catch (SQLException | NumberFormatException ex) {
+            return 0;
+            
+        }
+        
+        
+    }
+    
 }

@@ -45,50 +45,40 @@ public class Sqlite {
         return sql;
     }
     
-    public void addData(String statement) {
+    public void addData(String statement) throws SQLException {
         
         Statement stmt = null;
-        
-        try {
-            
-            c = DriverManager.getConnection("jdbc:sqlite:tietokanta_2.sqlite3");
-            c.setAutoCommit(false);
-            
-            stmt = c.createStatement();
-            System.out.println(statement);
-            stmt.executeUpdate(statement);
-            
-            stmt.close();
-            c.commit();
-            c.close();
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Sqlite.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+
+        c = DriverManager.getConnection("jdbc:sqlite:tietokanta_2.sqlite3");
+        c.setAutoCommit(false);
+
+        stmt = c.createStatement();
+        System.out.println(statement);
+        stmt.executeUpdate(statement);
+
+        stmt.close();
+        c.commit();
+        c.close();
+
         
     }
     
-    public void deleteData(String statement) {
+    public void deleteData(String statement) throws SQLException {
         
         System.out.println("Deleting data~");
                 Statement stmt = null;
-        
-        try {
             
-            c = DriverManager.getConnection("jdbc:sqlite:tietokanta_2.sqlite3");
-            c.setAutoCommit(false);
-            
-            stmt = c.createStatement();
-            System.out.println(statement);
-            stmt.executeUpdate(statement);
-            
-            stmt.close();
-            c.commit();
-            c.close();
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Sqlite.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        c = DriverManager.getConnection("jdbc:sqlite:tietokanta_2.sqlite3");
+        c.setAutoCommit(false);
+
+        stmt = c.createStatement();
+        System.out.println(statement);
+        stmt.executeUpdate(statement);
+
+        stmt.close();
+        c.commit();
+        c.close();
         
     }
     
@@ -229,14 +219,15 @@ public class Sqlite {
             //int i = 0;
             while(rs.next()) {
                 
-                String[] temp = new String[6];
+                String[] temp = new String[7];
                 
-                temp[0] = rs.getString("Nimi");
-                temp[1] = rs.getString("Särkyvä");
-                temp[2] = rs.getString("Syvyys");
-                temp[3] = rs.getString("Leveys");
-                temp[4] = rs.getString("Korkeus");
-                temp[5] = rs.getString("Paino");
+                temp[0] = rs.getString("tuoteID");
+                temp[1] = rs.getString("Nimi");
+                temp[2] = rs.getString("Särkyvä");
+                temp[3] = rs.getString("Syvyys");
+                temp[4] = rs.getString("Leveys");
+                temp[5] = rs.getString("Korkeus");
+                temp[6] = rs.getString("Paino");
                 table.add(temp);
                 //i++;
             
@@ -274,12 +265,13 @@ public class Sqlite {
             //int i = 0;
             while(rs.next()) {
                 
-                String[] temp = new String[4];
+                String[] temp = new String[5];
                 
-                temp[0] = rs.getString("Nimi");
-                temp[1] = rs.getString("Luokka");
-                temp[2] = rs.getString("Lähtö");
-                temp[3] = rs.getString("Maali");
+                temp[0] = rs.getString("pakettiID");
+                temp[1] = rs.getString("Nimi");
+                temp[2] = rs.getString("Luokka");
+                temp[3] = rs.getString("Lähtö");
+                temp[4] = rs.getString("Maali");
                 table.add(temp);
                 //i++;
             
