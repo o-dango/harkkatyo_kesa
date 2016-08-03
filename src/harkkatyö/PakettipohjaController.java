@@ -114,7 +114,8 @@ public class PakettipohjaController implements Initializable {
         int check = p.createParcel(itemID, parcelClass, startmachine, endmachine);
         if(check == 0) {
             infoText.setText("Paketin luomisessa tapahtui virhe!\n"
-                    + "Tarkista onko esine sopiva valittuun toimitusluokkaan.");
+                    + "Tarkista onko esine sopiva\n "
+                    + "valittuun toimitusluokkaan.");
         }
         else if(check == 2) {
             infoText.setText("Virhe tietojärjestelmässä!");
@@ -231,6 +232,7 @@ public class PakettipohjaController implements Initializable {
 
     @FXML
     private void classInfoAction(ActionEvent event) {
+        
         try {
             Stage stage3 = new Stage();
             System.out.println("Näyttää postitusinfon");
@@ -251,6 +253,7 @@ public class PakettipohjaController implements Initializable {
     @FXML
     private void createItemAction(ActionEvent event) {
         
+        readItems();
         Item item = Item.getInstance();
         int check;
         int itemID = (selectItem.getItems().size() + 1);
@@ -267,6 +270,14 @@ public class PakettipohjaController implements Initializable {
         else {
             
             infoText.setText("Luotiin esine: " + setItemName.getText());
+            
+            setItemName.clear();
+            setItemSize.clear();
+            setItemWeight.clear();
+            
+            setItemName.setPromptText("Nimi");
+            setItemSize.setPromptText("Koko     cm*cm*cm");
+            setItemWeight.setPromptText("Paino    kg");
             
         }
         

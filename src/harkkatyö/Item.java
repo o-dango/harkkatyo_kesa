@@ -37,24 +37,26 @@ public class Item {
     public int createItem(int itemID, String breakable, String name, String size, String weight) {
         
         try {
-        String statement = "INSERT INTO Esine(tuoteID, Särkyvä, Nimi) "
-                + "VALUES(" + itemID + ",'" + breakable + "','" + name + "');";
-        
-        sql.addData(statement);
-        
-        String[] split = new String[3];
-        split = size.split("\\*");
-        
-        statement = "INSERT INTO Koko(Korkeus, Leveys, Syvyys, Paino, tuoteID) "
-                + "VALUES(" + Integer.parseInt(split[0]) + "," + Integer.parseInt(split[1]) 
-                + "," + Integer.parseInt(split[2]) + "," + Double.parseDouble(weight)
-                + "," + itemID + ");";
-        
-        sql.addData(statement);
+            
+            String statement1 = "INSERT INTO Esine(tuoteID, Särkyvä, Nimi) "
+                    + "VALUES(" + itemID + ",'" + breakable + "','" + name + "');";
+
+            String[] split = new String[3];
+            split = size.split("\\*");
+
+            String statement2 = "INSERT INTO Koko(Korkeus, Leveys, Syvyys, Paino, tuoteID) "
+                    + "VALUES(" + Integer.parseInt(split[0]) + "," + Integer.parseInt(split[1]) 
+                    + "," + Integer.parseInt(split[2]) + "," + Double.parseDouble(weight)
+                    + "," + itemID + ");";
+
+            sql.addData(statement1);
+            sql.addData(statement2);
         
         return 1;
         
         } catch (SQLException | NumberFormatException ex) {
+            
+            System.out.println(ex.getMessage());
             return 0;
             
         }
