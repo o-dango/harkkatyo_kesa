@@ -7,4 +7,4 @@ IkkunapohjaController ohjaa pääikkunan toimintaa, pakettipohjaController paket
 infoikkuna pakettiluokkia varten ja ponnahdusikkuna pääikkunan varoitusta varten. Jotain häikkää pääikkunan paketinvalitsemis-
 valikossa, johtuu jostain.
 
-Raportit mukana repositoryssä
+Raportit mukana repositoryssä, mukana myös mallit tietokannalle ja ohjelmalle.
