@@ -7,13 +7,10 @@ package harkkatyö;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javafx.application.Platform.exit;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +24,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -122,6 +118,10 @@ public class PakettipohjaController implements Initializable {
         }
         else if(check == 2) {
             infoText.setText("Virhe tietojärjestelmässä!");
+        }
+        else if(startmachine.equals(endmachine)) {
+            infoText.setText("Paketin luomisessa tapahtui virhe!\n"
+                    + "Tarkista lähtö- ja pääteautomaatti.");
         }
         else {
             Stage scene = (Stage) makeParcel.getScene().getWindow();

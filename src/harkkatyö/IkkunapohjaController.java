@@ -7,7 +7,6 @@ package harkkatyö;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +21,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -57,19 +55,21 @@ public class IkkunapohjaController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        try {
-            rw = new readWeb("http://smartpost.ee/fi_apt.xml");
-            String content = rw.getContent();
+        //try {
+            //rw = new readWeb("http://smartpost.ee/fi_apt.xml");
+            //String content = rw.getContent();
             //names = new webReader(content); //tietokantaan kirjoittamista varten
             webViewer.getEngine().load(getClass().getResource("index.html").toExternalForm());
             
-        } catch (IOException ex) {
+        /**} catch (IOException ex) {
             Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         
         String statement = "SELECT * FROM Postiautomaatti;";
         ArrayList results = sql.getCityData(statement);
@@ -162,78 +162,86 @@ public class IkkunapohjaController implements Initializable {
         System.out.println("Lähettää postipaketin");
         
         temp = chooseParcel.getValue();
-        String[] split = temp.split("->");
-        System.out.println(Arrays.toString(split));
-        temp = split[1];
-        split = split[0].split(":");
-        System.out.println(Arrays.toString(split) + " " + temp);
-        
-        parcelID = Integer.parseInt(split[0].trim());
-        
-        String statement = "SELECT * FROM PakettiInfo WHERE "
-                + "pakettiID = " + parcelID + ";";
-        System.out.println(statement);
-        ArrayList<String[]> results = sql.getParcelData(statement);
-        
-        temp = results.get(0)[4];
-        parcelClass = Integer.parseInt(results.get(0)[2]);
-        System.out.println(parcelClass);
-        
-        statement = "SELECT * FROM Sijainti WHERE "
-                + "Nimi = '" + results.get(0)[3] + "';";
-        //System.out.println(statement);
-        
-        results = sql.getCoordinateData(statement);
-        coordinates.add(results.get(0)[1]);
-        coordinates.add(results.get(0)[0]);
-        
-        statement = "SELECT * FROM Sijainti WHERE "
-                + "Nimi = '" + temp + "';";
-        //System.out.println(statement);
-        
-        results = sql.getCoordinateData(statement);
-        coordinates.add(results.get(0)[1]);
-        coordinates.add(results.get(0)[0]);
-        
-        System.out.println(coordinates.toString());
-        
-        distance = (double)webViewer.getEngine().executeScript("document.createPath(" + coordinates 
-                + ",'none'," + parcelClass + ")");
-        System.out.println(distance);
-        
-        if (parcelClass == 1 && distance > 150) {
-            
-            try {
-                Stage stage3 = new Stage();
-                System.out.println("oopsie");
-                stage3.setTitle("Virhe:D");
-                Parent root2 = FXMLLoader.load(getClass().getResource("ponnahus.fxml"));
-
-                Scene scene = new Scene(root2);
-
-                stage3.setScene(scene);
-                stage3.show();
-            } catch (IOException ex) {
-                Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+        if(temp == null) {
+            //dont do anything
         }
-        
+            
         else {
             
-            webViewer.getEngine().executeScript("document.createPath(" + coordinates 
-                + ",'blue'," + parcelClass + ")");
+            String[] split = temp.split("->");
+            System.out.println(Arrays.toString(split));
+            temp = split[1];
+            split = split[0].split(":");
+            System.out.println(Arrays.toString(split) + " " + temp);
+
+            parcelID = Integer.parseInt(split[0].trim());
+
+            String statement = "SELECT * FROM PakettiInfo WHERE "
+                    + "pakettiID = " + parcelID + ";";
+            System.out.println(statement);
+            ArrayList<String[]> results = sql.getParcelData(statement);
+
+            temp = results.get(0)[4];
+            parcelClass = Integer.parseInt(results.get(0)[2]);
+            System.out.println(parcelClass);
+
+            statement = "SELECT * FROM Sijainti WHERE "
+                    + "Nimi = '" + results.get(0)[3] + "';";
+            //System.out.println(statement);
+
+            results = sql.getCoordinateData(statement);
+            coordinates.add(results.get(0)[1]);
+            coordinates.add(results.get(0)[0]);
+
+            statement = "SELECT * FROM Sijainti WHERE "
+                    + "Nimi = '" + temp + "';";
+            //System.out.println(statement);
+
+            results = sql.getCoordinateData(statement);
+            coordinates.add(results.get(0)[1]);
+            coordinates.add(results.get(0)[0]);
+
+            System.out.println(coordinates.toString());
+
+            distance = (double)webViewer.getEngine().executeScript("document.createPath(" + coordinates 
+                    + ",'none'," + parcelClass + ")");
             System.out.println(distance);
-        
-            statement = "DELETE FROM Paketti "
-                    + "WHERE pakettiID = " + parcelID + ";";
-            try {
-                sql.deleteData(statement);
-            } catch (SQLException ex) {
-                Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+
+            if (parcelClass == 1 && distance > 150) {
+
+                try {
+                    Stage stage3 = new Stage();
+                    System.out.println("oopsie");
+                    stage3.setTitle("Virhe:D");
+                    Parent root2 = FXMLLoader.load(getClass().getResource("ponnahus.fxml"));
+
+                    Scene scene = new Scene(root2);
+
+                    stage3.setScene(scene);
+                    stage3.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
-            chooseParcel.setPromptText("Valitse paketti");
-            
+
+            else {
+
+                webViewer.getEngine().executeScript("document.createPath(" + coordinates 
+                    + ",'blue'," + parcelClass + ")");
+                System.out.println(distance);
+
+                statement = "DELETE FROM Paketti "
+                        + "WHERE pakettiID = " + parcelID + ";";
+                try {
+                    sql.deleteData(statement);
+                } catch (SQLException ex) {
+                    Logger.getLogger(IkkunapohjaController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                chooseParcel.setPromptText("Valitse paketti");
+
+            }
+                
         }
         
     }
@@ -291,19 +299,25 @@ public class IkkunapohjaController implements Initializable {
         Parcel p = Parcel.getInstance();
         
         String temp = chooseParcel.getValue();
-        String[] split = temp.split("->");
-        System.out.println(Arrays.toString(split));
-        temp = split[1];
-        split = split[0].split(":");
-        System.out.println(Arrays.toString(split) + " " + temp);
-        
-        int parcelID = Integer.parseInt(split[0].trim());
-        
-        int check = p.removeParcel(parcelID);
-        
-        if (check == 0) {
-            
-            System.out.println("Virhe tietokannassa!");
+        if(temp == null) {
+            //dont do anything
+        }
+        else {
+            String[] split = temp.split("->");
+            System.out.println(Arrays.toString(split));
+            temp = split[1];
+            split = split[0].split(":");
+            System.out.println(Arrays.toString(split) + " " + temp);
+
+            int parcelID = Integer.parseInt(split[0].trim());
+
+            int check = p.removeParcel(parcelID);
+
+            if (check == 0) {
+
+                System.out.println("Virhe tietokannassa!");
+
+            }
             
         }
         
